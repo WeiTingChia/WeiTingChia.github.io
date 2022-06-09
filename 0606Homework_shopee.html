@@ -34,9 +34,12 @@
         .list .head{
             color: rgb(196, 7, 7);
             font-weight: 900;
-            border-right: 1.5px #ccc solid ;      
-            text-decoration: none;   
-             
+            text-decoration: none;             
+        }
+        .list .head li::after{
+            content: '';
+            border: 1px #ccc solid;
+            margin-left: 10px;
         }
         .list img{
             width: 17px;
