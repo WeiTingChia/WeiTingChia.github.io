@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        
+        body{
+            background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/640px-A_black_image.jpg");
+            background-repeat: repeat;          
+        }
+        .head{
+            text-align:center;           
+        }
+        .head img{
+            width: 300px         
+        }
+        .body1{
+            text-align: center;
+            
+        }
+        
+        #gsearch{
+            font-size: 20px;
+            padding: 10px 4px 10px 45px;
+            border-radius: 1.5em;
+            border: 2px black solid;
+            margin-top: 20px;
+            background: white url("https://i0.wp.com/www.thinkafrica.fi/wp-content/uploads/2019/04/search-icon.png?fit=1200%2C1200&ssl=1&w=20" )no-repeat 14px center;
+        }
+        #gsearch::placeholder{
+            font-size: 18px;
+            padding-left: 5px;
+        }
+        .item-group{
+             
+            display: flex;
+            flex-wrap: wrap;
+            margin: auto;
+            justify-content: center;
+        }
+        .foot{       
+            text-decoration: none;
+        }
+        .item{
+            padding: 20px;
+            margin: 15px;
+            width: 60px;
+            height: 75px;
+            
+        }
+        .item img{
+            width: 60px;
+            height: 60px; 
+            border-radius: 50%;
+            background-color: rgba(137, 138, 139, 0.205);                
+        }
+        .item h3{
+            color: white;
+            font-size: 15px;
+            font-weight: 100;
+            text-align: center;
+        }
+        
+        .item:hover{
+            background-color: rgba(236, 232, 226, 0.199);
+        }
+        .item .foot .plus{
+            width: 30px;
+            height: 30px;
+            padding: 15px 15px;
+        }
+        .box{           
+            vertical-align: middle;   
+            padding: 155px 0;      
+        }
+        img[alt="mic-icon"]{
+            height: 22px;
+            position: relative;
+            right: 45px;
+            top: 5px;
+        }
+        
+    </style>
+</head>
+<body>       
+    <div class="box">
+        
+            <div class="head">
+                <img src="google-logo-white.png" alt="">
+            </div>
+            <form class="body1">
+                <label for="gsearch">
+                    <input type="search" id="gsearch" placeholder="  搜尋Google 或輸入網址" size="50">
+                    <a href="">
+                        <img src="voice-search.png" alt="mic-icon">
+                    </a>
+                </label>
+            </form>
+            <div class="item-group">
+        
+                <div class="item">
+                        <a href="" class="foot">
+                            <img src="https://www.terramater.at/wp-content/uploads/2019/10/Youtube-logo-2017.png" alt="">
+                            <h3>youtube</h3>
+                        </a>
+                </div>
+                <div class="item">
+                        <a href=""class="foot">
+                            <img src="https://icon-library.com/images/white-plus-icon/white-plus-icon-3.jpg" alt="" class="plus">
+                            <h3>新增捷徑</h3>
+                        </a>
+                </div>
+        
+            </div>
+        
+    </div>
+</body>
+</html>
