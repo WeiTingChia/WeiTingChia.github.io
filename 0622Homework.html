@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        display: flex;
+        justify-content: center;
+    }
+    .img1 img{
+        width: 300px;
+        height: 200px;
+    }
+    table{
+        border: black 1px solid;
+        text-align: center;
+    }
+    td{
+        border: black 1px solid;
+        padding: 10px;
+    }
+    
+</style>
+<body>
+    <table>
+        <tr>
+            <td><img src="" alt=""></td>
+        </tr>
+        <tr>
+            <td><p></p></td>
+        </tr>
+        <tr>
+            <td>
+            <span class="img1">
+            <img src="" alt="">
+            <img src="" alt="">
+            <img src="" alt="">
+            </span>
+            </td>
+        </tr>
+    </table>
+    
+    
+    
+    <script>
+        let profile = document.querySelector("img");
+        profile.src = "https://pbs.twimg.com/profile_images/1040539611624341504/MEwklEJL_400x400.jpg";
+
+        let name = "Steven Rogers";
+        let age = "102";
+        let email = "rogers@email.com";
+        let school = "Avergers School";
+        let habbits = "kill Aliens";
+
+        let intro = document.querySelector("p");
+        intro.innerText = (`姓名: ${name}\n年齡: ${age}\nEmail: ${email}\n學校: ${school}\n興趣: ${habbits}`);
+
+        document.write("<br>");
+        const imageArray = [
+            "https://i.pinimg.com/550x/c7/bf/26/c7bf26c7c7ea87fa9e11092925de627c.jpg", 
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYPxDVhfSU3qVzHmVJ7YGEqcj3xJx9o_sfYhI8f9XpEhJuYn-PDYKbstme5X8gBXfld3Y&usqp=CAU", 
+            "https://i0.wp.com/mrlifeday.com/wp-content/uploads/2019/07/Jeremy-Renner-for-Esquire-10.jpg?resize=750%2C400&ssl=1"
+        ];
+
+        let img1 = document.querySelector(".img1 :nth-child(1)");
+        img1.src = imageArray[0];
+        let img2 = document.querySelector(".img1 :nth-child(2)");
+        img2.src = imageArray[1];
+        let img3 = document.querySelector(".img1 :nth-child(3)");
+        img3.src = imageArray[2];
+
+    </script>
+</body>
+</html>
