@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,500&family=Poppins:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="reset.css">
+    <script src="https://kit.fontawesome.com/3ec7909d7d.js" crossorigin="anonymous"></script>
+    <style>
+        :root{
+            --green:rgb(51, 136, 51);
+        }
+        a{
+            text-decoration: none;
+            color: black;
+        }
+        h1,h2,h3,h4,h5,p,span{
+            font-family: 'Playfair Display', serif;
+            font-family: 'Poppins', sans-serif;
+        }
+        .main-page{
+            width: 100%;
+        }
+        .header{
+            background-color: white;
+            display: flex;
+            justify-content: space-between;
+            padding-top:20px;
+            padding-bottom: 20px;
+            position: sticky;
+            top:0;
+            z-index: 5;
+        }
+        .header .header-menu li{
+            display:none;
+        }
+        .header-menu{
+            /* background-color: white; */
+            margin-left: 15px;
+        }
+        [type="checkbox"]{
+            display:none;
+        }
+        .header-menu .hb:hover{
+            cursor: pointer;
+        }
+        .header .header-menu > ul:first-of-type{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background-color: white;
+        }
+        .header .header-menu > ul:first-of-type ul{
+            display: flex;
+            color: white;
+            align-items: center;
+            /* position: absolute; */
+        }
+        .header .header-menu ul:first-of-type ul li{
+            background-color: black;
+            padding: 10px 20px;
+        }
+        .header #side-bar:checked + ul > ul:first-of-type li{
+            display: block;
+        }
+        
+        .header-menu .hb div:nth-child(1){
+            width: 30px;
+            height: 2px;
+            background-color: var(--green);
+            position:absolute;
+            top:45%;
+        }
+        .header-menu .hb div:nth-child(2){
+            width: 20px;
+            height: 2px;
+            background-color: var(--green);
+            position:absolute;
+            bottom:45%;
+        }
+        .header-menu .hb div:nth-child(3){
+            width: 15px;
+            height: 2px;
+            background-color: var(--green);
+            position:absolute;
+            bottom:37%;
+        }
+        .header .pic img{
+            vertical-align: middle;
+            width: 150px;
+            position:absolute;
+            top:0;
+            bottom:0;
+            left:0;
+            right:0;
+            margin:auto;
+        }
+        .header .header-icon{
+            display:flex;
+            font-size: 20px;
+            align-items: center;
+            padding-right:15px;
+        }
+        .header-icon i{
+            padding: 5px;
+            color: var(--green);
+        }
+        .header-icon li:nth-child(2){
+            display: none;
+        }
+        .banner{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-top: 10%;
+            padding-bottom: 10%;
+        }
+        .banner a:hover button{
+            cursor: pointer;
+            background-color: rgb(96, 193, 238);
+            border-color: transparent;
+        }
+        .banner .banner-text{
+            position:absolute;
+            left:10%;
+        }
+        .banner-text h3{
+            font-size: 40px;
+            line-height: 1.5em;
+            margin-bottom: 15px;
+        }
+        .banner-text span{
+            font-size: 20px;
+            display: block;
+            margin-bottom: 30px;
+        }
+        .banner-text button{
+            background-color: black;
+            color: white;
+            padding:10px 20px;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+        
+        .banner img{
+            width: 50%;
+        }
+        .banner-intro{
+            text-align: center;
+            padding: 40px 15px 40px 15px;
+        }
+        .banner-intro h2{
+            font-size: 27px;
+            color: var(--green);
+            font-weight: 600;
+            line-height: 1.5em;
+            padding-bottom: 30px;
+        }
+        .banner-intro p{
+            font-size: 15px;
+            color: #aaa;
+            font-style: italic;
+            line-height: 1.2em;
+        }
+        .planet-benefits h3{
+            font-size: 25px;
+            font-weight: 600;
+            padding: 20px 0;
+        }
+        .planet-benefits span{
+            font-size: 15px;
+            color: #aaa;
+            display: block;
+            padding-bottom: 25px;
+        }
+        .planet-benefits .pic{
+            display: flex;
+            justify-content: center;
+        }
+        .planet-benefits .text-1{
+            text-align: right;
+        }
+        .staff-pick{
+            color: var(--green);
+            text-align: center;
+            font-size: 30px;
+            font-weight: 600;
+            padding: 70px 0 70px 0;
+        }
+        .main-page{
+            /* max-width: 1200px; */
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 15px;
+            padding-right: 15px;
+            box-sizing: border-box;
+        }
+        .row{
+            display: flex;
+            flex-wrap: wrap;
+            margin-left: -15px;
+            margin-right: -15px;
+        }
+        [class*="cols-"] > .col{
+        	padding-left: 15px;
+        	padding-right: 15px;
+        	box-sizing: border-box;
+        	margin-bottom: 20px;
+        }
+        .product .col img{
+            width: 100%;
+            aspect-ratio: 417/468;
+        }
+        .product .pic{
+            position: relative;
+        }
+        .product .col{
+            text-align: center;
+            margin-bottom: 55px;
+            font-weight: 600;
+        }
+        .product .col h2{
+            margin: 20px 0 20px 0;
+        }
+        .product .col h2:hover{
+            color: var(--green);
+        }
+        .product .col .pic a{
+            height: 100%;
+        }
+        .product .row .col .pic .cover{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: rgba(209, 209, 209, 0.5);
+            opacity: 0;
+            transition: 0.2s;
+        }
+        .product .row .col .pic .cover .icons{
+            opacity: 0;
+        }
+        .product .row .col .pic .cover:hover{
+            opacity: 1;
+            cursor: pointer;
+        }
+        .product .col .pic:hover > img:last-of-type{
+            opacity: 1;
+        }
+        .product .col .pic > img:last-of-type{
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: 0.4s;
+        }
+       
+        .product .col .pic span:nth-child(1){
+            color: white;
+            font-size: 12px;
+            background-color: rgb(51, 136, 51);
+            padding: 12px;
+            border-radius: 1.5em 0 1.5em 0;
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 4;
+        }
+        .product .col:nth-of-type(1) .pic span,.product .col:nth-of-type(4) .pic span,.product .col:nth-of-type(5) .pic span,.product .col:nth-of-type(6) .pic span,.product .col:nth-of-type(9) .pic span{
+            display: none;
+        }
+        .middle-banner{
+            width: 100%;
+            background-image: url("https://cdn.shopify.com/s/files/1/0356/8343/4555/files/bg-video1.jpg?v=1585532362");
+            background-position: left;
+            background-repeat: no-repeat;
+            background-size: cover;
+            padding-top: 60px;
+            padding-bottom: 60px;
+        }
+        .middle-banner h3{
+            font-size: 35px;
+            font-weight: 600;
+            color: rgb(51, 136, 51);
+            padding-left: 15px;
+        }
+        .middle-banner p{
+            padding-left: 15px;
+            font-weight: 500;
+            padding-bottom: 30px;
+        }
+        .middle-banner a button{
+            position: relative;
+            background-color: transparent;
+            margin-left: 15px;
+            margin-bottom: 30px;
+            color: black;
+            transition: .3s;
+            z-index: 3;
+            border:1px solid black;
+            overflow: hidden;
+        }
+        .middle-banner .banner-text a button:before{
+            content:'';
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: -100%;
+            left: 0;
+            background-color: rgb(51, 136, 51);
+            z-index: -1;
+            transition: .3s;
+        }
+        .middle-banner .banner-text a button:hover:before{
+            top:0;
+        }
+        .middle-banner a:hover button{
+            color: white;
+            border-color: transparent;
+            cursor:pointer;
+            transition: .3s;
+        }
+        .middle-banner .video{
+            width: 95%;
+            max-width: 550px;
+            position: relative;
+            margin-left: 15px;
+        }
+        .video img{
+            width: 100%;
+        }
+        .video > a{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            border: 1px white solid;
+            border-radius: 50%;
+            position: absolute;
+            left: 0;
+            right:0;
+            top: 0;
+            bottom: 0;
+            margin:auto;
+            z-index: 4;
+        }
+        .video > a:hover{
+            background-color:rgb(51, 136, 51) ;
+            border: transparent;
+        }
+        .video i{
+            font-size: 20px;
+            color: rgba(255, 255, 255, .8);
+        }
+        .ins{
+            padding: 40px 0;
+            text-align: center;
+            font-size: 70px;
+        }
+        .ins h3{
+            font-size: 30px;
+            margin-top:15px;
+        }
+        .photo-gallery{
+            width: 100%;
+        }
+        .photo-gallery .row .col:nth-child(3),.photo-gallery .row .col:nth-child(4){
+            display:none;   
+        }
+        .photo-gallery img{
+            width: 100%;
+            vertical-align: middle;
+        }
+        .photo-gallery .col{
+            position: relative;
+        }
+        .photo-gallery .col .wrap{
+            position: relative;
+        }
+        .photo-gallery .col .wrap div::before{
+            content:'';
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: .5s;
+        }
+        .photo-gallery .col .wrap div:hover::before{
+            opacity: 1;
+            cursor: pointer;
+        }
+        
+        .footer{
+            background-color: #ccc;
+            width: 100%;
+            padding-top: 40px;
+            padding-bottom:40px;
+            text-align: center;
+        }
+        .footer-wrap img{
+            width: 200px;
+            margin-bottom: 30px;
+        }
+        .footer-text{
+            margin-bottom: 30px;
+        }
+        .footer-text a{
+            color:black;
+            font-size: 15px;
+            font-weight: 600;
+        }
+        .footer-text a + a{
+            margin-left: 20px;
+        }
+        .footer-text a:hover{
+            color:rgb(51, 136, 51);
+        }
+        .footer-icon{
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .footer-icon .icon-contain{
+            position: relative;
+            width: 40px;
+            height: 40px;
+            background-color: black;
+            border-radius: 50%;
+            text-align: center;
+            overflow: hidden;
+            line-height: 40px;
+            border: 2px black solid;
+        }
+        .footer-icon a + a{
+            margin-left: 10px;
+        }
+        .footer-icon .icon-contain i{
+            display: block;
+            color: white;
+            font-size: 16px;
+            position: absolute;
+            top:calc(50% - 8px);
+            left: calc(50% - 7px);
+        }
+        .footer .copyright{
+            color: #999;
+            font-size: 13px;
+        }
+        .footer-icon a .cover{
+            width: 100%;
+            height: 100%;
+            background-color: rgb(51, 136, 51);
+            position: absolute;
+            bottom: -100%;
+            transition: 0.4s;
+        }
+        .footer-icon a:hover .cover{
+            bottom:0;
+        }
+        
+        @media screen and (min-width: 768px){
+            .header  .header-menu{
+                display: flex;
+                align-items: center;
+            }
+            .header .header-menu li{
+                position: relative;
+                display:block;
+                font-family: 'Playfair Display', serif;
+                font-family: 'Poppins', sans-serif;
+                font-weight: 600;
+            }
+            .header .header-menu li + li{
+                margin-left: 20px;
+            }
+            .header .header-menu li:nth-child(2n+3):before{
+                content:'NEW';
+                display: block;
+                color: white;
+                font-size: 10px;
+                padding: 2px 5px;
+                background-color: rgb(29, 125, 189);
+                position: absolute;
+                top: -20px;
+                right: -5px;   
+            }
+            .header .hb{
+                display:none;
+            }
+            .header .header-icon li{
+                display: block;
+            }
+            .header .header-icon li + li{
+                margin-left: 20px;
+            }
+            .header .header-icon li i{
+                color: black;
+            }
+            .banner{
+                background-image: url("https://cdn.shopify.com/s/files/1/0356/8343/4555/files/bg-slide10.jpg?v=1585303728");
+                background-position: center;
+                background-size: cover;
+            }
+            .planet-benefits{
+                display: flex;
+                width: 100%;
+                justify-content: space-between;
+            }
+            .planet-benefits h3{
+                font-size: 22px;
+            }
+            .product .row .col .pic .cover{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .product .row .col .pic .cover .icons{
+                display: flex;
+                position: relative;
+                /* opacity: 1; */
+                transition: .3s, .5s;
+            }
+            
+            .product .row .col .pic .cover .icons .icon{
+                width: 45px;
+                height: 45px;
+                border: transparent;
+                background-color: white;
+                border-radius: 50%;
+                transition: .3s, 1s;
+            }
+            .product .row .col .pic .cover .icons .icon + .icon{
+                margin-left: 20px;
+            }
+            .product .row .col .pic .cover .icons .icon i{
+                color:var(--green);
+                line-height: 3em;
+            }
+            .product .row .col .pic .cover .icon:hover{
+                background-color: var(--green);
+            }
+            .product .row .col .pic .cover:hover .icons{
+                opacity: 1;
+                transition: .5s;
+                transition-delay: .5s;
+            }
+            .product .row .col .pic .cover .icon:hover i{
+                color:white;
+                transition: .3s;
+            }
+            .product .row .col .pic .cover .icon:nth-of-type(1):before{
+                content:'Add to Wishlist';
+                color:white;
+                font-size: 10px;
+                background-color: black;
+                padding: 2px 5px;
+                position: absolute;
+                top: -20px;
+                left: -15px;
+                display: none;
+            }
+            .product .row .col .pic .cover .icon:nth-of-type(1):hover:before{
+                display: flex;
+            }
+            .product .row .col .pic .cover .icon:nth-of-type(2):before{
+                content:'Add to Cart';
+                color:white;
+                font-size: 10px;
+                background-color: black;
+                padding: 2px 5px;
+                position: absolute;
+                top: -20px;
+                left: 53px;
+                display: none;
+            }
+            .product .row .col .pic .cover .icon:nth-of-type(2):hover:before{
+                display: flex;
+            }
+            .product .row .col .pic .cover .icon:nth-of-type(3):before{
+                content:'Quickview';
+                color:white;
+                font-size: 10px;
+                background-color: black;
+                padding: 2px 5px;
+                position: absolute;
+                top: -20px;
+                left: 120px;
+                display: none;
+            }
+            .product .row .col .pic .cover .icon:nth-of-type(3):hover:before{
+                display: flex;
+            }
+            .middle-banner{
+                display: flex;
+                align-items: center;
+            }
+            .middle-banner .banner-text{
+                margin-left: 20px;
+                box-sizing: border-box;
+            }
+            .middle-banner .video{
+                margin: 0 10px;
+            }
+            .photo-gallery .row .col:nth-child(3),.photo-gallery .row .col:nth-child(4){
+                display: block;
+            }
+        }
+        
+        .row-cols-1 .col{ width: 100%; }
+        .row-cols-2 .col{ width: 50%; }
+        .row-cols-3 .col{ width: 33.333333%; }
+        .row-cols-4 .col{ width: 25%; }
+        .row-cols-5 .col{ width: 20%; }
+        .row-cols-6 .col{ width: 16.666666%; }
+        @media screen and (min-width: 768px) {
+        	.row-cols-md-1 .col{ width: 100%; }
+        	.row-cols-md-2 .col{ width: 50%; }
+        	.row-cols-md-3 .col{ width: 33.333333%; }
+        	.row-cols-md-4 .col{ width: 25%; }
+        	.row-cols-md-5 .col{ width: 20%; }
+        	.row-cols-md-6 .col{ width: 16.666666%; }
+        }
+        @media screen and (min-width: 920px) {
+        	.row-cols-lg-1 .col{ width: 100%; }
+        	.row-cols-lg-2 .col{ width: 50%; }
+        	.row-cols-lg-3 .col{ width: 33.333333%; }
+        	.row-cols-lg-4 .col{ width: 25%; }
+        	.row-cols-lg-5 .col{ width: 20%; }
+        	.row-cols-lg-6 .col{ width: 16.666666%; }
+        }
+        @media screen and (min-width: 1200px) {
+        	.row-cols-xl-1 .col{ width: 100%; }
+        	.row-cols-xl-2 .col{ width: 50%; }
+        	.row-cols-xl-3 .col{ width: 33.333333%; }
+        	.row-cols-xl-4 .col{ width: 25%; }
+        	.row-cols-xl-5 .col{ width: 20%; }
+        	.row-cols-xl-6 .col{ width: 16.666666%; }
+        }
+        
+    </style>
+</head>
+<body>
+    <section class="main-page">
+        <section class="header">
+            <input type="checkbox" id="side-bar">
+            <ul class="header-menu">
+                <label for="side-bar" class="hb">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </label>
+                <!-- <ul class="menu-nav"> -->
+                    <!-- <ul>
+                        <li>MENU</li>
+                        <li>LOGIN</li>
+                    </ul> -->
+                    <li><a href="">Home</a></li>
+                    <li><a href="">Shop</a></li>
+                    <li><a href="">Featured</a></li>
+                    <li><a href="">Pages</a></li>
+                    <li><a href="">Element</a></li>
+                <!-- </ul> -->
+            </ul>
+            <div class="pic">
+                <a href="#"><img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/files/logo.png?v=1585540695"></a>
+            </div>
+            <ul class="header-icon">
+                <li><a href=""><i class="fa-solid fa-magnifying-glass"></i></a></li>
+                <li><a href=""><i class="fa-regular fa-user"></i></a></li>
+                <li><a href=""><i class="fa-solid fa-basket-shopping"></i></a></li>
+            </ul>
+        </section>
+    
+
+        <section class="banner">
+            <div class="banner-text">
+                <h3>Collection New <br>Beautiful</h3>
+                <span>from $69</span>
+                <a href="#">
+                    <button>SHOP NOW</button>
+                </a>
+            </div>
+            <!-- <div class="pic"> -->
+                <img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/files/slidesho10-small-2.png?v=1585303730">
+            <!-- </div> -->
+        </section>
+
+        <div class="banner-intro">
+            <h2>The important benefits of<br>
+                greenery for the environment and health
+            </h2>
+            <p>
+                Trees have always been considered as "lungs" of the earth. Planting lots of trees helps provide a great deal of oxygen for us to breathe.
+                On average, one tree can provide enough oxygen for four people. At the same time they also absorb C02, ammonia, S02, .. in the world! 
+            </p>
+        </div>
+
+        <section class="planet-benefits">
+            <div class="text-1">
+                <h3>Reducing environmental pollution</h3>
+                <span>Trees have always been considered as "lungs" of the earth.</span>
+                <h3>Save water and reduce soil erosion</h3>
+                <span>Trees can slow down the evaporation of water, increasing air humidity.</span>
+                <h3>Reduce street temperatures</h3>
+                <span>Planting more trees in densely populated areas will not only make the air there more fresh</span>
+            </div>
+            <div class="pic">
+                <a href=""><img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/files/info-v2.jpg?v=1585303814" alt=""></a>
+            </div>
+            <div class="text-2">
+                <h3>Energy conservation</h3>
+                <span>One tree can cool down, cool down 10 rooms</span>
+                <h3>Prevent ultraviolet influence</h3>
+                <span>Green trees become shade to block the sunlight from the road</span>
+                <h3>Improve human health</h3>
+                <span>Living in a quiet, cool, clean and fresh environment will make your health better</span>
+            </div>
+        </section>
+        <section class="staff-pick">
+            <span>Staff.Pick</span>
+        </section>
+
+        <section class="product">
+            <div class="row row-cols-2 row-cols-lg-3">
+                <div class="col">
+                    <div class="pic">
+                        <span>SALE</span>
+                        
+                        <img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/products/186-large_default.jpg?v=1585273742">
+                        
+                        <img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/products/187-large_default.jpg?v=1585273742">
+                        <div class="cover">
+                            <div class="icons">
+                                <div class="icon"><i class="fa-regular fa-heart"></i></div>
+                                <div class="icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                                <div class="icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                        <a href="">
+                            <h2>Sapien Libero</h2>
+                        </a>
+                        <span>$150.00</span>
+                </div>
+                <div class="col">
+                        <div class="pic">
+                            <span>SALE</span>
+                            <img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/products/5.jpg?v=1585534433">
+                            <div></div>
+                            <img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/products/6.jpg?v=1585534424">
+                            <div class="cover">
+                                <div class="icons">
+                                    <div class="icon"><i class="fa-regular fa-heart"></i></div>
+                                    <div class="icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                                    <div class="icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="">
+                            <h2>Fringilla Augue 360</h2>
+                        </a>
+                        <span>$200.00 $150.00</span>
+                </div>
+                <div class="col">
+                        <div class="pic">
+                            <span>SALE</span>
+                            <img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/products/198-large_default_3b2e9138-0286-48ee-983f-c8fb82a3a443.jpg?v=1585273709"><img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/products/191-large_default_bdf68ca7-5284-412c-9fec-78235d9cd046.jpg?v=1585273709">
+                            <div class="cover">
+                                <div class="icons">
+                                    <div class="icon"><i class="fa-regular fa-heart"></i></div>
+                                    <div class="icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                                    <div class="icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div></div>
+                        
+                        <a href="">
+                            <h2>Faded Short Sleeves Variable</h2>
+                        </a>
+                        <span>$200.00 $150.00</span>
+                </div>
+                <div class="col">
+                        <div class="pic">
+                            <span>SALE</span>
+                            <img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/products/155-large_default.jpg?v=1585273757">
+                                <div></div>
+                            <img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/products/157-large_default.jpg?v=1585273757">
+                            <div class="cover">
+                                <div class="icons">
+                                    <div class="icon"><i class="fa-regular fa-heart"></i></div>
+                                    <div class="icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                                    <div class="icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="">
+                            <h2>Purple Flowers</h2>
+                        </a>
+                        <span>$180.00</span>
+                </div>
+                <div class="col">
+                        <div class="pic">
+                            <span>SALE</span>
+                            <img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/products/1.jpg?v=1585533927">
+                            <div></div>
+                            <img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/products/3.jpg?v=1585533927">
+                            <div class="cover">
+                                <div class="icons">
+                                    <div class="icon"><i class="fa-regular fa-heart"></i></div>
+                                    <div class="icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                                    <div class="icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="">
+                            <h2>Adipiscing Cursus Out Of Stock</h2>
+                        </a>
+                        <span>$450.00</span>
+                </div>
+                <div class="col">
+                        <div class="pic">
+                            <span>SALE</span>
+                            <img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/products/203-large_default.jpg?v=1585273720">
+                            <div></div>
+                            <img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/products/215-large_default.jpg?v=1585273720">
+                            <div class="cover">
+                                <div class="icons">
+                                    <div class="icon"><i class="fa-regular fa-heart"></i></div>
+                                    <div class="icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                                    <div class="icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="">
+                            <h2>Fringilla Augue</h2>
+                        </a>
+                        <span>$320.00</span>
+                </div>
+                <div class="col">
+                        <div class="pic">
+                            <span>SALE</span>
+                            <img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/products/160-large_default.jpg?v=1585273753">
+                            <div></div>
+                            <img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/products/163-large_default.jpg?v=1585273753">
+                            <div class="cover">
+                                <div class="icons">
+                                    <div class="icon"><i class="fa-regular fa-heart"></i></div>
+                                    <div class="icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                                    <div class="icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="">
+                            <h2>Purple Flowers</h2>
+                        </a>
+                        <span>$200.00 $150.00</span>
+                </div>
+                <div class="col">
+                        <div class="pic">
+                            <span>SALE</span>
+                            <img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/products/167-large_default.jpg?v=1585273748">
+                            <div></div>
+                            <img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/products/169-large_default.jpg?v=1585273748">
+                            <div class="cover">
+                                <div class="icons">
+                                    <div class="icon"><i class="fa-regular fa-heart"></i></div>
+                                    <div class="icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                                    <div class="icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="">
+                            <h2>Plant</h2>
+                        </a>
+                        <span>$200.00 $150.00</span>
+                </div>
+                <div class="col">
+                        <div class="pic">
+                            <span>SALE</span>
+                            <img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/products/169-large_default_b744dea4-d905-4693-bf53-0e838e05c1d5.jpg?v=1585273745">
+                            <div></div>
+                            <img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/products/172-large_default.jpg?v=1585273745">
+                            <div class="cover">
+                                <div class="icons">
+                                    <div class="icon"><i class="fa-regular fa-heart"></i></div>
+                                    <div class="icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                                    <div class="icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="">
+                            <h2>Plant Beautiful</h2>
+                        </a>
+                        <span>$150.00</span>
+                </div>
+
+            </div>
+        </section>
+    </section>
+        <section class="middle-banner">
+            <div class="banner-text">
+                <h3>A Number Of Our Products</h3>
+                <p>Pick up all you need to keep your board in optimum condition with Decathlon’s set of surfboard accessories.</p>
+                <a href="#">
+                    <button>SHOP NOW</button>
+                </a>
+            </div>
+            <div class="video">
+                <a href="#">
+                    <i class="fa-solid fa-play"></i>
+                </a>
+                <img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/files/video1.jpg?v=1585303728">
+            </div>
+        </section>
+    <section class="main-page">
+
+        <section class="ins">
+            <span><i class="fa-brands fa-instagram"></i></span>
+            <h3>SHOP INSTAGRAM</h3>
+        </section>
+
+        <section class="photo-gallery">
+            <div class="row row-cols-2 row-cols-md-4">
+                <div class="col">
+                    <div class="wrap">
+                        <img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/files/instagram1.jpg?v=6541840606778977924">
+                        <div></div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="wrap">
+                        <img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/files/instagram2.jpg?v=11953683771741515241">
+                        <div></div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="wrap">
+                        <img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/files/instagram3.jpg?v=7058045833254573700">
+                        <div></div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="wrap">
+                        <img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/files/instagram4.jpg?v=11697362171788349596">
+                        <div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>  
+        <section class="footer">
+            <div class="footer-wrap">
+                <img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/files/logo.png?v=1585540695">
+                <div class="footer-text">
+                    <a href="#"><span>ABOUT US</span></a>
+                    <a href="#"><span>CUSTOMER SERVICE</span></a>
+                    <a href="#"><span>SUBSCRIPTION</span></a>
+                </div>
+
+                <div class="footer-icon">
+                    <a href="">
+                        <div class="icon-contain">
+                            <div class="cover">
+
+                            </div>
+                            <i class="fa-brands fa-twitter"></i>
+                        </div>
+                    </a>
+                    <a href="">
+                        <div class="icon-contain">
+                            <div class="cover">
+
+                            </div>
+                            <i class="fa-brands fa-dribbble"></i>
+                        </div>
+                    </a>
+                    <a href="">
+                        <div class="icon-contain">
+                            <div class="cover">
+
+                            </div>
+                            <i class="fa-brands fa-behance"></i>
+                        </div>
+                    </a>
+                    <a href="">
+                        <div class="icon-contain">
+                            <div class="cover">
+
+                            </div>
+                            <i class="fa-brands fa-instagram"></i>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+            <div class="copyright">
+                <p>Website by ShopiLaunch . Copyright SunplantShop</p>
+            </div>
+        </section>
+
+    
+</body>
+</html>
