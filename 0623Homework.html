@@ -553,6 +553,9 @@
             .header .header-menu .wrap > li + li{
                 margin-left: 20px;
             }
+            ul.wrap > li{
+                padding: 10px 0;
+            }
             .menu-home, .shop > ul, .featured-nav, .element-menu{
                 opacity: 0;
                 display: flex;
@@ -561,7 +564,7 @@
                 position:absolute;
                 width: 1000px;
                 flex-wrap: wrap;
-                top: 15px;
+                top: 50px;
                 left: -100vw;
                 padding: 20px;
                 transition: 0.3s;
@@ -571,11 +574,12 @@
                 width: 100%;
                 margin-bottom: 10px;
             }
-            li.home a:hover + .menu-home,li.shop a:hover + ul, li.featured a:hover + .featured-nav, .element a:hover + .element-menu{
+            li.home:hover > .menu-home,li.shop:hover > ul, li.featured:hover > .featured-nav, .element:hover > .element-menu{
                 display: flex;
                 opacity:1;
-                top:30px;
+                top:35px;
                 left: 15px;
+                z-index: 6;
             }
             .menu-home li{
                 padding: 10px;
@@ -677,7 +681,7 @@
                 line-height:3em;
                 font-size: 14px;
             }
-            .pages > a:hover + ul{
+            .pages:hover > ul{
                 opacity: 1;
                 top: 30px;
                 left: 15px;
@@ -702,7 +706,7 @@
                 padding: 2px 5px;
                 background-color: rgb(29, 125, 189);
                 position: absolute;
-                top: -20px;
+                top: -10px;
                 right: -5px;   
             }
             .header .hb{
