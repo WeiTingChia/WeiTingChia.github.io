@@ -35,54 +35,45 @@
             top:0;
             z-index: 5;
         }
-        .header .header-menu li{
-            display:none;
-        }
-        .header-menu{
-            /* background-color: white; */
-            margin-left: 15px;
-        }
         [type="checkbox"]{
             display:none;
         }
-        .header-menu .hb:hover{
+        .header .hb:hover{
             cursor: pointer;
         }
-        .header .header-menu > ul:first-of-type{
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            background-color: white;
-        }
-        .header .header-menu > ul:first-of-type ul{
+        .header .header-menu .menu-nav .wrap{
             display: flex;
             color: white;
             align-items: center;
-            /* position: absolute; */
         }
-        .header .header-menu ul:first-of-type ul li{
+        .header .header-menu .menu-nav .wrap ul.nav-ph li{
             background-color: black;
             padding: 10px 20px;
         }
         .header #side-bar:checked + ul > ul:first-of-type li{
             display: block;
         }
-        
-        .header-menu .hb div:nth-child(1){
+        .menu-home {
+            position: absolute;
+        }
+        .hb{
+            width: 30px;;
+        }
+        .header .hb div:nth-child(1){
             width: 30px;
             height: 2px;
             background-color: var(--green);
             position:absolute;
             top:45%;
         }
-        .header-menu .hb div:nth-child(2){
+        .header .hb div:nth-child(2){
             width: 20px;
             height: 2px;
             background-color: var(--green);
             position:absolute;
             bottom:45%;
         }
-        .header-menu .hb div:nth-child(3){
+        .header .hb div:nth-child(3){
             width: 15px;
             height: 2px;
             background-color: var(--green);
@@ -467,7 +458,86 @@
         .footer-icon a:hover .cover{
             bottom:0;
         }
-        
+        @media screen and (max-width: 767px) {
+            .header .header-menu .menu-nav .wrap{   
+                background-color: #fff;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                z-index: 99;
+                font-family: 'Playfair Display', serif;
+                font-family: 'Poppins', sans-serif;
+            }
+            .header .header-menu .menu-nav{
+                width: 50%;
+                height: 100vh;
+                display:flex;
+                justify-content: space-between;
+                flex-direction: column;
+                position: fixed;
+                top:0;
+                left:-100%;
+                transition: .3s;
+                z-index: 6;
+                flex-grow: 1;
+            }
+            .header .header-menu .menu-nav:after{
+                content: '';
+                width: 50%;
+                height: 100vh;
+                background-color: rgba(0, 0, 0, 0.7);
+                position: fixed;
+                left: -100%;
+            }
+            [type="checkbox"]:checked ~ .main-page .header .header-menu .menu-nav:after{
+                left: 50%;
+                transition:.3s;
+            }
+            [type="checkbox"]:checked ~ .main-page .header .header-menu .menu-nav{
+                left:0;
+            }
+            .header-menu{
+                display:flex;
+                flex-direction: row;
+            }
+            .menu-home, .shop > ul, .featured-nav, .pages > ul, .element-menu{
+                display:none;
+            }
+            .header-menu .menu-nav .wrap ul.nav-ph{
+                border: 1px #ccc solid;
+                width: 100%;
+                display:flex;
+            }
+            .header-menu .menu-nav .wrap ul.nav-ph li{
+                width: 50%;;
+            }
+            .header-menu .menu-nav .wrap > li span{
+                padding-top: 10px;
+                padding-left: 15px;
+            }
+            .header-menu .menu-nav .wrap > li {
+                line-height: 3em;
+            }
+            .header-menu .menu-nav .wrap ul.nav-ph li:last-of-type{
+                background-color: #fff;
+                color: black;
+            }
+            .header-menu .menu-nav .close{
+                background-color: var(--green);
+                padding-top: 15px;
+                padding-bottom: 15px;
+                text-align: center;
+                font-family: 'Playfair Display', serif;
+                font-family: 'Poppins', sans-serif;
+                color: #fff;
+            }
+            .header-menu .menu-nav .close:hover{
+                cursor: pointer;
+            }
+        }
         @media screen and (min-width: 768px){
             .header  .header-menu{
                 display: flex;
@@ -480,10 +550,151 @@
                 font-family: 'Poppins', sans-serif;
                 font-weight: 600;
             }
-            .header .header-menu li + li{
+            .header .header-menu .wrap > li + li{
                 margin-left: 20px;
             }
-            .header .header-menu li:nth-child(2n+3):before{
+            .menu-home, .shop > ul, .featured-nav, .element-menu{
+                opacity: 0;
+                display: flex;
+                background-color: white;
+                flex-direction: row;
+                position:absolute;
+                width: 1000px;
+                flex-wrap: wrap;
+                top: 15px;
+                left: -100vw;
+                padding: 20px;
+                transition: 0.3s;
+                box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.7)
+            }
+            .menu-home li img{
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            li.home a:hover + .menu-home,li.shop a:hover + ul, li.featured a:hover + .featured-nav, .element a:hover + .element-menu{
+                display: flex;
+                opacity:1;
+                top:30px;
+                left: 15px;
+            }
+            .menu-home li{
+                padding: 10px;
+            }
+            .menu-home li span{
+                color:var(--green);
+                font-size: 12px;
+                letter-spacing: 3px;
+            }
+            .shop > ul{
+                width: 400px;
+                font-size: 15px;
+                line-height: 1.5em;
+            }
+            .shop > ul ul{
+                width: 50%;
+            }
+            .shop > ul ul li{
+                padding: 10px 0;
+            }
+            .shop > ul ul li:first-child a, .featured-nav > ul ul li:first-child a, .element-menu > ul li:first-child a{
+                padding-bottom: 10px;
+                color: var(--green);
+                border-bottom: 2px solid var(--green);
+            }
+            .shop .list2 li:nth-of-type(3n+2)::after, .featured-nav ul ul:first-of-type li:nth-last-of-type(3n+2)::after,.featured-nav ul ul:nth-of-type(2) li:nth-of-type(3)::after{
+                content:'NEW';
+                background-color: red;
+                color: white;
+                padding: 0px 5px;
+                line-height: 1.2;
+                position: absolute;
+                top: -8px;
+                right:40%;
+                font-size: 10px;
+            }
+            .featured-nav ul ul:nth-of-type(2) li:nth-of-type(2)::after, .featured-nav ul ul:nth-of-type(1) li:nth-of-type(3)::after,.featured-nav ul ul:nth-of-type(3) li:nth-of-type(6)::after{
+                content: 'HOT';
+                background-color: skyblue;
+                color: white;
+                padding: 0px 5px;
+                line-height: 1.2;
+                position: absolute;
+                top: -8px;
+                right:40%;
+                font-size: 10px;
+            }
+            .featured-nav ul ul:nth-of-type(3) li:nth-of-type(6)::after{
+                right: 70%;
+            }
+            .featured-nav ul ul:nth-of-type(3) li:nth-of-type(2)::after{
+                content:'HOT';
+                background-color: red;
+                color: white;
+                padding: 0px 5px;
+                line-height: 1.2;
+                position: absolute;
+                top: -8px;
+                right:70%;
+                font-size: 10px;
+            }
+            .featured-nav{
+                width: 1000px;
+            }
+            .featured-nav > ul{
+                flex-grow: 8;
+                display: flex;
+                flex-wrap: wrap;
+                color:black;
+                width: 75%;
+            }
+            .featured-nav > ul ul{
+                line-height: 3em;
+                padding: 10px;
+                box-sizing: border-box;
+                width: 33.3333%;
+            }
+            .featured-nav .img{
+                flex-grow:1;
+                width: 25%;
+                padding: 10px;
+                box-sizing: border-box;
+            }
+            .featured-nav .img img{
+                width: 100%;
+            }
+            .pages > ul{
+                width: 100px;
+                position: absolute;
+                background-color: white;
+                top:20px;
+                left: -100vw;
+                padding: 30px;
+                box-shadow: 0 0 7px rgba(0, 0, 0, 0.7);
+                opacity: 0;
+                transition: .3s;
+            }
+            .pages > ul li, .element-menu li{
+                line-height:3em;
+                font-size: 14px;
+            }
+            .pages > a:hover + ul{
+                opacity: 1;
+                top: 30px;
+                left: 15px;
+            }
+            .element-menu{
+                width: 550px;
+                background-image: url("https://cdn.shopify.com/s/files/1/0356/8343/4555/files/banner-menu2.png?v=1585551136");
+                background-size: cover;
+                background-position: center;
+            }
+            .element-menu > ul{
+                padding: 15px;
+            }
+            .header-menu .menu-nav .wrap ul.nav-ph,.header-menu .menu-nav .close,.header .header-menu .menu-nav .wrap li i{
+                display: none;
+            }
+            .header .wrap > li:nth-of-type(2n+3):before{
                 content:'NEW';
                 display: block;
                 color: white;
@@ -650,26 +861,176 @@
     </style>
 </head>
 <body>
+    <input type="checkbox" id="side-bar">
     <section class="main-page">
         <section class="header">
-            <input type="checkbox" id="side-bar">
+            <label for="side-bar" class="hb">
+                <div></div>
+                <div></div>
+                <div></div>
+            </label>
             <ul class="header-menu">
-                <label for="side-bar" class="hb">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </label>
-                <!-- <ul class="menu-nav"> -->
-                    <!-- <ul>
-                        <li>MENU</li>
-                        <li>LOGIN</li>
-                    </ul> -->
-                    <li><a href="">Home</a></li>
-                    <li><a href="">Shop</a></li>
-                    <li><a href="">Featured</a></li>
-                    <li><a href="">Pages</a></li>
-                    <li><a href="">Element</a></li>
-                <!-- </ul> -->
+                <ul class="menu-nav">
+                    <ul class="wrap">
+                        <ul class="nav-ph">
+                            <li><i class="fa-solid fa-bars"></i> MENU</li>
+                            <li><i class="fa-regular fa-circle-user"></i> LOGIN</li>
+                        </ul>
+                        <li class="home">
+                            <a href="">
+                                <span>Home</span>
+                                <i class="fa-solid fa-angle-right"></i>
+                            </a>
+                            <ul class="menu-home row row-cols-md-3">
+                                <li class="col"><img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/files/1.jpg?v=1585564604" alt=""><span>HOME1</span></li>
+                                <li class="col"><img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/files/2.jpg?v=1585564605" alt=""><span>HOME2</span></li>
+                                <li class="col"><img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/files/3.jpg?v=1585564604" alt=""><span>HOME3</span></li>
+                                <li class="col"><img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/files/4.jpg?v=1585564605" alt=""><span>HOME4</span></li>
+                                <li class="col"><img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/files/5.jpg?v=1585564604" alt=""><span>HOME5</span></li>
+                            </ul>
+                        </li>
+                        <li class="shop">
+                            <a href="">
+                                <span>Shop</span>
+                                <i class="fa-solid fa-angle-right"></i>
+                            </a>
+                            <ul>
+                                <ul class="list1">
+                                    <li>
+                                        <a href="">SHOP FILTER</a>
+                                    </li>
+                                    <li>
+                                        <a href="">Filter Push Left</a>
+                                    </li>
+                                    <li>
+                                        <a href="">Filter Collapse</a>
+                                    </li>
+                                </ul>
+                                <ul class="list2">
+                                    <li>
+                                        <a href="">SHOP LAYOUT</a>
+                                    </li>
+                                    <li>
+                                        <a href="">Full width</a>
+                                    </li>
+                                    <li>
+                                        <a href="">Sidebar Left</a>
+                                    </li>
+                                    <li>
+                                        <a href="">Sidebar Right</a>
+                                    </li>
+                                    <li>
+                                        <a href="">Infinity Scroll</a>
+                                    </li>
+                                    <li>
+                                        <a href="">Product List</a>
+                                    </li>
+                                </ul>
+                            </ul>
+                        </li>
+                        <li class="featured">
+                            <a href="">
+                                <span>Featured</span>
+                                <i class="fa-solid fa-angle-right"></i>
+                            </a>
+                            <ul class="featured-nav">
+                                <ul>
+                                    <ul>
+                                        <li><a href="">BLOG LAYOUTS</a></li>
+                                        <li>Blog Standar No Sidebar</li>
+                                        <li>Blog Standar Sidebar Left</li>
+                                        <li>Blog Standar Sidebar Right</li>
+                                        <li>Blog Grid No Sidebar</li>
+                                        <li>BLog Grid Sidebar</li>
+                                    </ul>
+                                    <ul>
+                                        <li><a href="">PRODUCT LAYOUT</a></li>
+                                        <li>Product Large Images</li>
+                                        <li>Product Extended</li>
+                                        <li>Product Gallery</li>
+                                        <li>Product Sticky</li>
+                                        <li>Product Sidebar</li>
+                                    </ul>
+                                    <ul>
+                                        <li><a href="">PRODUCT TYPES</a></li>
+                                        <li>Variable</li>
+                                        <li>Video</li>
+                                        <li>360 Degree</li>
+                                        <li>Affiliate</li>
+                                        <li>Simple</li>
+                                        <li>Out Of Stack</li>
+                                    </ul>
+                                    <ul>
+                                        <li><a href="">SINGLE POST</a></li>
+                                        <li>Single Post No Sidebar</li>
+                                        <li>Single Grid No Sidebar</li>
+                                        <li>Single Post Sidebar Left</li>
+                                    </ul>
+                                </ul>
+                                <div class="img">
+                                    <img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/files/banner-menu.jpg?v=1585292268" alt="">
+                                </div>
+                            </ul>
+                        </li>
+                        <li class="pages">
+                            <a href="">
+                                <span>Pages</span>
+                                <i class="fa-solid fa-angle-right"></i>
+                            </a>
+                            <ul>
+                                <li><a href="">About Us</a></li>
+                                <li><a href="">Contact Us</a></li>
+                                <li><a href="">Wishlist Us</a></li>
+                            </ul>
+                        </li>
+                        <li class="element">
+                            <a href="">
+                                <span>Element</span>
+                                <i class="fa-solid fa-angle-right"></i>
+                            </a>
+                            <ul class="element-menu">
+                                <ul>
+                                    <li>
+                                        <a href="">MAIN STYLE</a>
+                                    </li>
+                                    <li>
+                                        <a href="">No Sidebar</a>
+                                    </li>
+                                    <li>
+                                        <a href="">Default - Menu right</a>
+                                    </li>
+                                    <li>
+                                        <a href="">Minimal</a>
+                                    </li>
+                                    <li>
+                                        <a href="">Classic</a>
+                                    </li>
+                                    <li>
+                                        <a href="">Modern</a>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li>
+                                        <a href="">POST FORMAT</a>
+                                    </li>
+                                    <li>
+                                        <a href="">Elementor</a>
+                                    </li>
+                                    <li>
+                                        <a href="">Logo on menu</a>
+                                    </li>
+                                    <li>
+                                        <a href="">Default - Menu Left</a>
+                                    </li>
+                                    <li>
+                                        <a href="">Logo in menu</a>
+                                    </li>
+                                </ul>
+                            </ul>
+                        </li>
+                    </ul>
+                    <label for="side-bar" class="close">X Close</label>
+                </ul>
             </ul>
             <div class="pic">
                 <a href="#"><img src="https://cdn.shopify.com/s/files/1/0356/8343/4555/files/logo.png?v=1585540695"></a>
