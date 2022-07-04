@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+</head>
+<body>
+    <div id="container"></div>
+
+    <script>
+        let titles = ['排名','公司','國家','市占率%']
+
+        let container, table, thead, tbody
+
+        let marketingShare = [
+            {ranking: 1, company: '台積電', country: '台灣', share:53.1},
+            {ranking: 2, company: '三星電子', country: '韓國', share:17.3},
+            {ranking: 3, company: '聯電', country: '台灣', share:7.2},
+            {ranking: 4, company: '格羅方德', country: '美國', share:6.1},
+            {ranking: 5, company: '中芯國際', country: '中國', share:5.3},
+            {ranking: 6, company: '華虹半導體', country: '中國', share:2.6},
+            {ranking: 7, company: '力積電', country:'台灣', share:1.8},
+            {ranking: 8, company: '世界先進', country: '台灣', share:1.4},
+            {ranking: 9, company: '高塔半導體', country: '以色列', share:1.4},
+            {ranking: 10, company: '東部高科', country: '韓國', share:1},
+        ]
+
+
+        window.onload = function(){
+            container = document.getElementById("container")
+            table = document.createElement("table")
+            thead = document.createElement("thead")
+            tbody = document.createElement("tbody")
+            
+            table.style.border = 'black 1px solid'
+            table.setAttribute("class", "table table-bordered table-striped table-dark table-hover")
+            table.style.textAlign = 'center'
+            table.style.width = '1200px'
+            table.style.margin = 'auto'
+
+            thead.setAttribute("class", "thead-light")
+
+            CreateThead()
+            CreateTbody()
+        }
+        
+        
+        function CreateThead(){
+            let theadTR = document.createElement("tr")
+
+            titles.forEach((title,index)=>{
+                let th = document.createElement("th")
+                th.innerText = title
+                theadTR.append(th)
+                th.style.border = 'black 1px solid'
+
+            })
+            thead.append(theadTR)
+            table.append(thead)
+            container.append(table)
+        }
+        function CreateTbody(){
+            
+            marketingShare.forEach((x,index)=>{
+                let tbodyTR = document.createElement("tr")
+                Object.values(x).forEach((y)=>{
+                    let td = document.createElement("td")
+                    td.innerText = y
+                    tbodyTR.append(td)
+                    td.style.border = 'black 1px solid'
+                    td.style.textAlign = 'center'
+                })
+                tbody.append(tbodyTR)
+                table.append(tbody)
+            })
+        }
+
+    </script>
+</body>
+</html>
