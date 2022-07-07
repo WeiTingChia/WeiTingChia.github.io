@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../reset.css">
+    <script src="https://kit.fontawesome.com/3ec7909d7d.js" crossorigin="anonymous"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .number {
+            display: inline-block;
+            text-align: center;
+            line-height: 180px;
+            font-size: 36px;
+            border: 2px solid black;
+            width: 100%;
+            height: 200px;
+        }
+
+        .wrap {
+            padding: 20px 0;
+        }
+
+        #TheNumber {
+            width: 100%;
+            height: 100px;
+            font-size: 36px;
+            background-color: rgb(33, 85, 153);
+            color: white;
+            text-align: center;
+            line-height: 3em;
+            border: transparent;
+            margin-bottom: 20px;
+        }
+
+        input {
+            height: 50px;
+            display: block;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .numbKeyboard ul {
+            display: flex;
+            justify-content: center;
+        }
+
+        ul li {
+            width: 50px;
+            /* height: 65px; */
+            border-radius: 5px;
+            background-color: black;
+            color: white;
+            text-align: center;
+            line-height: 65px;
+            margin: 3px;
+            font-size: 30px;
+            list-style: none;
+
+        }
+
+        .numbKeyboard>ul:nth-of-type(4) li:nth-child(1) {
+            color: red;
+        }
+
+        .numbKeyboard>ul:nth-of-type(4) li:nth-child(3) {
+            color: greenyellow;
+        }
+
+        li:hover {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <span class="number">0 ~ 100</span>
+        <div class="wrap">
+            <button id="TheNumber">產生數字</button>
+            <input type="text" size="15">
+            <section class="numbKeyboard">
+                <ul>
+                    <li>1</li>
+                    <li>2</li>
+                    <li>3</li>
+                </ul>
+                <ul>
+                    <li>4</li>
+                    <li>5</li>
+                    <li>6</li>
+                </ul>
+                <ul>
+                    <li>7</li>
+                    <li>8</li>
+                    <li>9</li>
+                </ul>
+                <ul>
+                    <li id="delete">X</li>
+                    <li>0</li>
+                    <li id="check">V</li>
+                </ul>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        let theNumber = ''
+        let input = document.querySelector('input')
+        let check = document.querySelector('#check')
+        let del = document.querySelector('#delete')
+        let showNumb = document.querySelector('span')
+        let maxNumb = 100
+        let minNumb = 0
+        let button = document.querySelectorAll('li')
+
+        window.onload = function(){
+           
+
+            
+            GameStart()
+        }
+        //創建終極密碼
+        let number = document.querySelector('#TheNumber')
+        number.addEventListener('click', CreateNumb)
+
+        //數字按鍵
+        function CreateButton(){
+            button.forEach(x => {
+                x.addEventListener('click', ClickButton)
+            });
+        del.addEventListener('click', DeleteNum)
+        check.removeEventListener('click', ClickButton)
+        check.addEventListener('click', CheckNum)
+        }
+        
+        function CreateNumb() {
+            let numb = Math.floor(Math.random() * 100 + 1)
+            theNumber = numb
+            input.disabled = 0
+            CreateButton()
+        }
+        function GameStart() {
+            input.disabled = 1
+        }
+        function ClickButton(event) {
+            if(isNaN(event.target)){
+                input.value += event.target.innerText
+            }
+        }
+        function DeleteNum() {
+            input.value = ''
+        }
+        function CheckNum(event) {
+            
+            if (input.value > maxNumb || input.value < minNumb) {
+                alert('請輸入範圍內數字')
+            }
+            else if (input.value < theNumber) {
+                minNumb = input.value
+                showNumb.innerText = `${minNumb} ~ ${maxNumb}`
+            }
+            else if (input.value > theNumber) {
+                maxNumb = input.value
+                showNumb.innerText = `${minNumb} ~${maxNumb}`
+            }
+            else if (input.value == theNumber) {
+                showNumb.innerText = '恭喜答對! 遊戲結束'
+                GameStart()
+                button.forEach(x=>{
+                x.removeEventListener('click',ClickButton)
+                })
+            }
+            input.value = ''
+            
+        }
+    </script>
+</body>
+
+</html>
