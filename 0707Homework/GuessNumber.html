@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../reset.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <style>
+        .box{
+            width: 800px;
+            margin:auto;
+            box-shadow: 3px 3px 7px rgba(111,111,111,.9);
+            height: 80vh;
+            display: relative;
+        }
+        .buttons{
+            margin:auto;
+            margin-top: 100px;
+            padding: 20px;
+            display:flex;
+            justify-content: center;
+        }
+        .input-group{
+            width: 80%;
+            margin:auto
+        }
+        .btn.btn-danger:hover{
+            cursor:default
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <section class="buttons ">
+            <button type="button" class="btn btn-outline-primary btn-lg fw-bold">開始</button>
+            <button type="button" class="btn btn-outline-primary btn-lg fw-bold">放棄重來</button>
+            <button type="button" class="btn btn-outline-primary btn-lg fw-bold">看答案</button>
+        </section>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-default">猜答案</span>
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" maxlength="4">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2">猜!</button>
+        </div>
+        <ul class="list-group"></ul>
+
+        <!-- childNodes為什麼會包含註解的部分跟換行 -->
+
+    </div>
+
+    <script>
+        let start = document.querySelector('.buttons > button:nth-of-type(1)')
+        let quit = document.querySelector('.buttons > button:nth-of-type(2)')
+        let answer = document.querySelector('.buttons > button:nth-of-type(3)')
+        let guess = document.querySelector('.input-group > button:nth-of-type(1)')
+        let input = document.querySelector('input')
+        let box = document.querySelector('.box')
+        let A = 0
+        let B = 0
+        let msg = document.querySelector('.list-group')
+        let numbArray = [4]
+        window.onload= function(){
+            GameIni()
+            
+        }
+        
+        //產出亂數
+        start.addEventListener('click', GameStart)
+        
+        //把輸入一個一個比對 如果有includes && index == , A +1, 如果includes, B +1
+
+        guess.addEventListener('click', CheckAns)
+
+        quit.addEventListener('click', QuitGame)
+        
+        answer.addEventListener('click', AnswerPeek)
+
+
+
+        function GameIni(){
+            input.disabled = 1
+            guess.disabled = 1
+            quit.disabled = 1
+            answer.disabled = 1
+
+        }
+        function GameStart(){
+            guess.disabled = 0
+            input.disabled = 0
+            quit.disabled = 0
+            answer.disabled = 0 
+            numbArray = [4]
+            let number = Math.floor(Math.random() * 10 )
+
+            for(let i =0; i<=3; i++){
+                while(numbArray.includes(number)){
+                    number = Math.floor(Math.random() * 10 )
+                }
+                numbArray[i] = number
+            }
+            // numbArray.join('')   
+        }
+
+        function CheckAns(){
+
+            A=0
+            B=0
+            for(i = 0; i< input.value.length; i++)
+            {
+                
+                // console.log(numbArray.includes(input.value[i])) 為什不能做判斷
+                numbArray.forEach(x=>{
+                    if(x == input.value[i])
+                    {
+                        B++
+                        if(numbArray.indexOf(x) == i)
+                        {
+                            A++
+                            
+                        }
+                    }
+                })
+
+
+                // let commonNumb = numbArray.filter(x=> x == input.value[i])
+                // if(numbArray.includes(input.value[i]))
+                // {
+                //     B++
+                //     if(numbArray.findIndex(commonNumb) == input.value[i])
+                //     {
+                //         A++
+                //     }
+                // }
+                
+
+            }
+            let list = document.createElement('li')
+            let ABAB = document.createElement('button')
+            ABAB.setAttribute('class','btn btn-danger')
+            list.setAttribute('class','list-group-item')
+
+            
+            ABAB.innerText=`${A}A${B-A}B`
+            msg.append(list)
+            list.innerText= `${input.value}`
+            list.append(ABAB)
+            GameWin()
+            
+            
+            
+        }
+
+        function QuitGame(){
+            alert(`答案是${numbArray.join('')}! 你輸了~`)
+            GameIni()
+            CleanMsg()
+        }
+        function CleanMsg(){
+            input.value = ''
+            for(let i = 1; i <= msg.childNodes.length ; i++)
+            {
+                msg.removeChild(document.querySelector('li'))
+            }
+            
+            box.removeChild(document.querySelector('#showAns'))
+        }
+        function AnswerPeek(){
+            let ans = document.createElement('span')
+            ans.innerText = `答案是: ${numbArray.join('')}`
+            ans.style.fontSize = 30
+            ans.style.position = 'absolute'
+            ans.style.top = '130px'
+            ans.style.right = '450px'
+            ans.style.backgroundColor = 'pink'
+            ans.setAttribute('id', 'showAns')
+            box.append(ans)
+        }
+        function GameWin(){
+            if(A == 4)
+            {
+                alert(`恭 喜 答對~`)
+                GameIni()
+            }
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+</body>
+</html>
