@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <style>
+         * {
+            font-family: 'Dancing Script', cursive;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="container">
+        <div id="header">
+            <div id="monthDisplay">{{July}}</div>
+            <div>
+                <button id="backBtn">Back</button>
+                <button id="nextBtn">Next</button>
+            </div>
+        </div>
+
+        <div id="weekdays">
+            <div>Sun</div>
+            <div>Mon</div>
+            <div>Tue</div>
+            <div>Wed</div>
+            <div>Thu</div>
+            <div>Fri</div>
+            <div>Sat</div>
+        </div>
+
+        <div id="calendar"></div>
+    </div>
+
+    <div id="newEventModal">
+        <h2>New Event</h2>
+        <input id="eventTitleInput" placeholder="New Title" type="text">
+        <button id="saveBtn">Save</button>
+        <button id="cancelBtn">Cancel</button>
+    </div>
+    <div id="deleteEventModal">
+        <h2>Event</h2>
+        <p id="eventText"></p>
+        <button id="deleteBtn">Delete</button>
+        <button id="closeBtn">Close</button>
+    </div>
+
+    <div id="modalBackDrop"></div>
+    
+    <script>
+        let nav = 0 // 當前月份為0, 前一個月是-1, 下一個月是1 ..以此類推
+        let clicked = null // 點選日期的儲存變數, 如點到7/16, clicked = 2022/7/16
+        let events = localStorage.getItem('events') ? JSON.parse(localStorage.getItem('events')) : [] 
+        //判斷localStorage內是否有儲存事項，有的話parse成物件，沒有的話回傳空陣列
+
+        const calendar = document.getElementById('calendar')
+        const newEventModal = document.getElementById('newEventModal')
+        const deleteEventModal = document.getElementById('deleteEventModal')
+        const backDrop = document.getElementById('modalBackDrop')
+        const eventTitleInput = document.getElementById('eventTitleInput')
+        const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] //計算padding day
+
+        window.onload = function(){
+            load()
+            initButtons()
+        }
+
+        function openModal(date){
+            clicked = date
+
+            const eventForDay = events.find(e => e.date === clicked)
+
+            if(eventForDay){
+                document.getElementById('eventText').innerText = eventForDay.title
+                deleteEventModal.style.display = 'block'
+            }else{
+                newEventModal.style.display = 'block'
+            }
+            backDrop.style.display = 'block'
+        }
+        function load(){
+            const dt = new Date()
+
+            //判斷月份
+            if(nav !== 0){
+                dt.setMonth(new Date().getMonth() + nav)
+            }
+
+            const day = dt.getDate()
+            const month = dt.getMonth()
+            const year = dt.getFullYear()
+
+            //取得月份的第一天
+            const firstDayOfMonth = new Date(year, month, 1)
+            //取得月份有幾天
+            const daysInMonth = new Date(year, month+1, 0).getDate()
+
+            //轉成month/date/year, 但我們要有'禮拜幾'=>result: Friday, 7/15/2022
+            const dateString = firstDayOfMonth.toLocaleDateString('en-us',{
+                weekday: 'long',
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric'
+            })
+
+            //取得paddingDays
+            const paddingDays = weekdays.indexOf(dateString.split(', ')[0])
+
+            //左上角月份顯示
+            document.getElementById('monthDisplay').innerText = `${dt.toLocaleDateString('en-us', {month: 'long'})} ${year}`
+
+            //產生方塊前先做清除
+            calendar.innerHTML = ''
+        
+            //產出日期方塊
+            for(let i = 1; i<= paddingDays + daysInMonth; i++){
+                const daySquare = document.createElement('div')
+                daySquare.classList.add('day')
+                const dayString = `${month+1}/${i - paddingDays}/${year}`
+                if(i > paddingDays){
+                    daySquare.innerText = i - paddingDays
+
+                    const eventForDay = events.find(e => e.date === dayString)
+                    
+                    //highlight 今天日期
+                    if(i - paddingDays === day && nav === 0){
+                        daySquare.id = 'currentDay'
+                    }
+
+                    if(eventForDay){
+                        const eventDiv = document.createElement('div')
+                        eventDiv.classList.add('event')
+                        eventDiv.innerText= eventForDay.title
+                        daySquare.appendChild(eventDiv)
+                    }
+
+                    daySquare.addEventListener('click',()=> openModal(dayString))
+                }else{
+                    daySquare.classList.add('padding')
+                }
+
+                calendar.appendChild(daySquare)
+            }
+            
+        }
+
+        function closeModal(){
+            eventTitleInput.classList.remove('error')
+            newEventModal.style.display = 'none'
+            deleteEventModal.style.display = 'none'
+            backDrop.style.display = 'none'
+            eventTitleInput.value = ''
+            clicked = null
+            load()
+
+        }
+
+        function saveEvent(){
+            if (eventTitleInput.value){
+                eventTitleInput.classList.remove('error')
+                events.push({
+                    date: clicked,
+                    title: eventTitleInput.value,
+                })
+
+                localStorage.setItem('events',JSON.stringify(events))
+                closeModal()
+            }else{
+                eventTitleInput.classList.add('error')
+            }
+            
+        }
+        function deleteEvent(){
+            events = events.filter( e => e.date !== clicked)
+            localStorage.setItem('events', JSON.stringify(events))
+            closeModal()
+        }
+
+        function initButtons(){
+            document.getElementById('nextBtn').addEventListener('click',()=>{
+                nav++
+                load()
+            })
+            document.getElementById('backBtn').addEventListener('click',()=>{
+                nav--
+                load()
+            })
+            document.getElementById('saveBtn').addEventListener('click',saveEvent)
+            document.getElementById('cancelBtn').addEventListener('click',closeModal)
+
+            document.getElementById('deleteBtn').addEventListener('click',deleteEvent)
+            document.getElementById('closeBtn').addEventListener('click',closeModal)
+        }
+
+
+        
+    </script>
+</body>
+</html>

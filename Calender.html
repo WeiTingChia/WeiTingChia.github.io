@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="reset.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/3ec7909d7d.js" crossorigin="anonymous"></script>
+
+    <style>
+        * {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        body {
+            background-color: #D9C8B4;
+        }
+
+        td {
+            border: 3px solid white;
+            border-radius: 1em;
+            width: 100px;
+            height: 100px;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        #year {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        #weekOfDay td {
+            height: 40px;
+        }
+
+        button {
+            background-color: #59412D;
+            border: none;
+            border-radius: 5px;
+            padding: 5px;
+            width: 50px;
+            height: 50%;
+        }
+
+        #newEventModal {
+            display: none;
+            z-index: 20;
+            padding: 25px;
+            background-color: #D9C8B4;
+            box-shadow: 0px 0px 3px black;
+            border-radius: 5px;
+            width: 350px;
+            top: 100px;
+            left: calc(50% - 175px);
+            position: absolute;
+            font-family: sans-serif;
+        }
+
+        #modalBackDrop {
+            display: none;
+            top: 0px;
+            left: 0px;
+            z-index: 10;
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        .event {
+            font-size: 15px;
+            padding: 3px;
+            background-color: #58bae4;
+            color: white;
+            border-radius: 5px;
+            max-height: 55px;
+            overflow: hidden;
+          }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="d-flex justify-content-between mx-5">
+            <button id="before" class="align-self-center"><i class="fa-solid fa-angle-left text-white"></i></button>
+            <h1 id="year" style="font-family: 'Dancing Script', cursive;"> {{2022}}</h1>
+            <button id="next" class="align-self-center"><i class="fa-solid fa-angle-right text-white"></i></button>
+        </div>
+        <div class="row">
+            <table>
+                <tr>
+                    <td id="month" class="text-center align-middle fs-1" colspan="7"> {{January}} </td>
+                </tr>
+                <tr id="weekOfDay">
+                    <td class="text-center lh-lg fw-bolder fs-5">Sun</td>
+                    <td class="text-center lh-lg fw-bolder fs-5">Mon</td>
+                    <td class="text-center lh-lg fw-bolder fs-5">Tue</td>
+                    <td class="text-center lh-lg fw-bolder fs-5">Wed</td>
+                    <td class="text-center lh-lg fw-bolder fs-5">Thu</td>
+                    <td class="text-center lh-lg fw-bolder fs-5">Fri</td>
+                    <td class="text-center lh-lg fw-bolder fs-5">Sat</td>
+                </tr>
+                <tr>
+                    <td box-id="0"></td>
+                    <td box-id="1"></td>
+                    <td box-id="2"></td>
+                    <td box-id="3"></td>
+                    <td box-id="4"></td>
+                    <td box-id="5"></td>
+                    <td box-id="6"></td>
+                </tr>
+                <tr>
+                    <td box-id="7"></td>
+                    <td box-id="8"></td>
+                    <td box-id="9"></td>
+                    <td box-id="10"></td>
+                    <td box-id="11"></td>
+                    <td box-id="12"></td>
+                    <td box-id="13"></td>
+                </tr>
+                <tr>
+                    <td box-id="14"></td>
+                    <td box-id="15"></td>
+                    <td box-id="16"></td>
+                    <td box-id="17"></td>
+                    <td box-id="18"></td>
+                    <td box-id="19"></td>
+                    <td box-id="20"></td>
+                </tr>
+                <tr>
+                    <td box-id="21"></td>
+                    <td box-id="22"></td>
+                    <td box-id="23"></td>
+                    <td box-id="24"></td>
+                    <td box-id="25"></td>
+                    <td box-id="26"></td>
+                    <td box-id="27"></td>
+                </tr>
+                <tr>
+                    <td box-id="28"></td>
+                    <td box-id="29"></td>
+                    <td box-id="30"></td>
+                    <td box-id="31"></td>
+                    <td box-id="32"></td>
+                    <td box-id="33"></td>
+                    <td box-id="34"></td>
+                </tr>
+            </table>
+
+            <div id="newEventModal">
+                <h2>New Event</h2>
+                <input id="eventTitleInput" placeholder="New Title" type="text">
+                <button id="saveBtn">Save</button>
+                <button id="cancelBtn">Cancel</button>
+            </div>
+
+            <div id="modalBackDrop"></div>
+        </div>
+    </div>
+
+    <script>
+        //宣告
+        let dateCurrent = new Date() // 現在時間
+        let yearCurrent = dateCurrent.getFullYear() // 現在年分
+        let monthCurrent = dateCurrent.getMonth() //現在月份
+        let dayCurrent = dateCurrent.getDate()
+        let clicked = null
+        let events = localStorage.getItem('events') ? JSON.parse(localStorage.getItem('events')) 
+        : [] 
+        //DOM
+        let year = document.getElementById('year')
+        let month = document.getElementById('month')
+        let btnBefore = document.getElementById('before')
+        let btnNext = document.getElementById('next')
+        let table = document.querySelector('table')
+        let modalTitle = document.querySelector('#exampleModal')
+        let newEventModal = document.getElementById('newEventModal')
+        let modalBackDrop = document.getElementById('modalBackDrop')
+        let eventTitleInput = document.getElementById('eventTitleInput')
+
+
+
+
+        //window.onload
+        window.onload = function () {
+
+
+            year.innerText = yearCurrent
+            month.innerText = monthSwitch(monthCurrent)
+
+            GetWeekDay()
+            btnBefore.addEventListener('click', MonthBefore)
+            btnNext.addEventListener('click', MonthNext)
+            initButton()
+        }
+        function monthSwitch(monthInput) {
+            switch (monthInput) {
+                case 0: {
+                    return 'Jan'
+                    break
+                }
+                case 1: {
+                    return 'Feb'
+                    break
+                }
+                case 2: {
+                    return 'Mar'
+                    break
+                }
+                case 3: {
+                    return 'Apr'
+                    break
+                }
+                case 4: {
+                    return 'May'
+                    break
+                }
+                case 5: {
+                    return 'Jun'
+                    break
+                }
+                case 6: {
+                    return 'July'
+                    break
+                }
+                case 7: {
+                    return 'Aug'
+                    break
+                }
+                case 8: {
+                    return 'Sep'
+                    break
+                }
+                case 9: {
+                    return 'Oct'
+                    break
+                }
+                case 10: {
+                    return 'Nov'
+                    break
+                }
+                case 11: {
+                    return 'Dec'
+                    break
+                }
+
+            }
+
+        }
+
+        function MonthBefore() {
+            monthCurrent = monthCurrent - 1
+            if (monthCurrent < 0) {
+                monthCurrent = 11
+                yearCurrent = yearCurrent - 1
+                year.innerText = yearCurrent
+                month.innerText = monthSwitch(monthCurrent)
+            } else {
+                month.innerText = monthSwitch(monthCurrent)
+            }
+            GetWeekDay()
+
+        }
+        function MonthNext() {
+            monthCurrent = monthCurrent + 1
+            if (monthCurrent > 11) {
+                monthCurrent = 0
+                yearCurrent = yearCurrent + 1
+                year.innerText = yearCurrent
+                month.innerText = monthSwitch(monthCurrent)
+            } else {
+                month.innerText = monthSwitch(monthCurrent)
+            }
+            GetWeekDay()
+        }
+        function GetWeekDay() {
+            //移除所有td [box-id] 的子節點(日期重複顯示的bug)
+            let tdAll = document.querySelectorAll('td')
+            tdAll.forEach(x => {
+                if (x.hasChildNodes() && x.hasAttribute('box-id')) {
+                    let child = document.querySelectorAll(`[data-id]`)
+                    
+                    if(child){
+                        child.forEach(y=>{
+                            y.innerText = ''
+                        })
+                    }
+                } 
+            })
+            //移除第8個tr節點
+            let trEight = document.querySelector('#new')
+
+            if ((trEight !== null)) {
+                table.removeChild(table.lastChild)
+            }
+
+            let lastday = new Date(yearCurrent, monthCurrent, 0)
+            
+            let lastdayOfWeek = lastday.getDay() // 前一個月最後一天是幾號、禮拜幾 => 可換算當月1日星期幾
+            let dayQuann = new Date(yearCurrent, monthCurrent + 1, 0)
+            let dayQuan = dayQuann.getDate() //當月天數
+            lastdayOfWeek == 6 ? lastdayOfWeek = -1 : lastdayOfWeek
+            let mod = Math.ceil((lastdayOfWeek + 1 + dayQuan) / 7.0) //計算需不需要新增第6行
+            if (mod == 6) {
+                let tr = document.createElement('tr')
+                tr.setAttribute('id', 'new')
+                for (j = 35; j <= 41; j++) {
+                    let td = document.createElement('td')
+                    td.setAttribute('box-id', j)
+                    tr.append(td)
+                }
+                table.append(tr)
+            }
+
+            for (i = 0; i < dayQuan; i++) {
+                let span = document.createElement('span') //日期span
+                span.setAttribute('class', 'd-block')
+                span.innerText = i + 1
+                const dayString = `${yearCurrent}-${monthCurrent + 1}-${i + 1}`
+                
+                //設定data-id Attribute
+                span.setAttribute('data-id', dayString)
+                let td = document.querySelector(`[box-id='${lastdayOfWeek + 1 + i}']`)
+                //找該日期是否有事項
+                const eventForDay = events.find(e => e.date === dayString)
+                if(eventForDay){
+                    const eventDiv = document.createElement('div')
+                    eventDiv.classList.add('event')
+                    eventDiv.innerText = eventForDay.title
+                    td.append(eventDiv)
+                }
+                //判斷td內有無子節點
+                if (td.hasChildNodes()) {
+                    td.removeChild(td.firstChild)
+                }
+                // span.append(button)
+                td.append(span)
+
+
+            }
+            table.addEventListener('click', e => {
+                
+                let date = document.getElementById('dateClicked')
+                if(date){
+                    newEventModal.removeChild(date)
+                }
+                
+                const cell = e.target.closest('td')
+                if (!cell) { return }
+                const row = cell.parentElement
+                let eventDate = document.createElement('h2')
+                eventDate.innerText = cell.firstChild.dataset.id
+                eventDate.setAttribute('id', 'dateClicked')
+                newEventModal.prepend(eventDate)
+                // console.log(cell.firstChild.dataset.id)
+                newEventModal.style.display = 'block'
+                modalBackDrop.style.display = 'block'
+                clicked = cell.firstChild.dataset.id
+            })
+
+        }
+
+        function closeModal(){
+            eventTitleInput.classList.remove('error')
+            newEventModal.style.display = 'none'
+            modalBackDrop.style.display = 'none'
+            eventTitleInput.value = ''
+            clicked = null
+        }
+        function initButton(){
+            const cancelBtn = document.getElementById('cancelBtn').addEventListener('click', closeModal)
+            const saveBtn = document.getElementById('saveBtn').addEventListener('click', saveEvent)
+        }
+        function saveEvent(){
+            if(eventTitleInput.value){
+                eventTitleInput.classList.remove('error')
+                events.push({
+                    date: clicked,
+                    title: eventTitleInput.value,
+                })
+
+                localStorage.setItem('events',JSON.stringify(events))
+                closeModal()
+            }else{
+                eventTitleInput.classList.add('error')
+            }
+        }
+
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
