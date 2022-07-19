@@ -15,7 +15,7 @@
 
         .card:hover {
             box-shadow: 8px 8px 15px #808080;
-            transform: translate(5px, 5px);
+            /* transform: translate(5px, 5px); */
             background-color: rgb(112, 76, 29) !important;
         }
 
@@ -85,20 +85,23 @@
     <!-- Modal2 -->
     <div class="modal fade" id="Modal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <!-- <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!-- <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                </div>
+                <div class="modal-body h-100">
+                    <iframe class="w-100" src="https://www.youtube.com/embed/EEC0fwQT8Qw" title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
             </div>
-            <div class="modal-body h-100">
-                <iframe class="w-100" src="https://www.youtube.com/embed/EEC0fwQT8Qw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
 
 
     <!-- <script>
@@ -181,40 +184,7 @@
                         })
                     })
                     heroArray.forEach((x, index) => {
-                        //chart data
-                        // let data = {
-                        //     labels: [
-                        //         'Hp',
-                        //         'Move Speed',
-                        //         'Armor',
-                        //         'Spell Block',
-                        //         'Attack Range',
-                        //     ],
-                        //     datasets: [{
-                        //         label: '',
-                        //         data: [x.hp,x.speed,x.armor,x.spell,x.attack],
-                        //         fill: true,
-                        //         backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        //         borderColor: 'rgb(255, 99, 132)',
-                        //         pointBackgroundColor: 'rgb(255, 99, 132)',
-                        //         pointBorderColor: '#fff',
-                        //         pointHoverBackgroundColor: '#fff',
-                        //         pointHoverBorderColor: 'rgb(255, 99, 132)'
-                        //     }]
-                        // };
-                        // //create chart
-                        // const config = new Chart(myChart, {
-                        //     type: 'radar',
-                        //     data: data,
-                        //     options: {
-                        //         elements: {
-                        //             line: {
-                        //                 borderWidth: 3
-                        //             }
-                        //         }
-                        //     },
-                        // });
-                        // openModal(x.hp, x.speed, x.armor, x.spell, x.attack)
+                        
                         row.append(getCard(x.id, x.name, x.blub, x.hp, x.speed, x.armor, x.spell, x.attack))
 
                     })
@@ -246,9 +216,76 @@
             Spell.innerText = `Spell Block: ${spell}`
             Attack.innerText = `Attack Range: ${attack}`
 
+            let data = {
+                labels: [
+                    'Hp',
+                    'Move Speed',
+                    'Armor',
+                    'Spell Block',
+                    'Attack Range',
+                ],
+                datasets: [{
+                    label: '',
+                    data: [hp, speed, armor, spell, attack],
+                    fill: true,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    pointBackgroundColor: 'rgb(255, 99, 132)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgb(255, 99, 132)'
+                }]
+            };
+            //create chart
+            const config = new Chart(myChart, {
+                type: 'radar',
+                data: data,
+                options: {
+                    elements: {
+                        line: {
+                            borderWidth: 3
+                        }
+                    }
+                },
+            });
+            openModal(x.hp, x.speed, x.armor, x.spell, x.attack)
+
         }
-        function openVic(){
-            
+        function newChart(hp, speed, armor) {
+            // chart data
+            let data = {
+                labels: [
+                    'Hp',
+                    'Move Speed',
+                    'Armor',
+                    'Spell Block',
+                    'Attack Range',
+                ],
+                datasets: [{
+                    label: '',
+                    data: [x.hp, x.speed, x.armor, x.spell, x.attack],
+                    fill: true,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    pointBackgroundColor: 'rgb(255, 99, 132)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgb(255, 99, 132)'
+                }]
+            };
+            //create chart
+            const config = new Chart(myChart, {
+                type: 'radar',
+                data: data,
+                options: {
+                    elements: {
+                        line: {
+                            borderWidth: 3
+                        }
+                    }
+                },
+            });
+            openModal(x.hp, x.speed, x.armor, x.spell, x.attack)
         }
     </script>
 
