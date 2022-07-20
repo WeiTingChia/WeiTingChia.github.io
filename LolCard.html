@@ -29,8 +29,8 @@
 <body>
     <div class="container">
         <h1 class="d-block text-center bg-black text-white py-5">LOL英雄聯盟圖鑑</h1>
-        <div class="row">
-
+        <div class="row justify-content-between">
+            
 
         </div>
 
@@ -38,7 +38,7 @@
 
     <!-- Template -->
     <template class="rounded" id="cardChampion">
-        <div class="col-3 card bg-dark">
+        <div class="col-3 card bg-dark " style="width:19rem;">
             <img class="w-100 p-2 shadow-lg" src="" alt="">
             <div class="cardbody">
                 <h5 class="text-white">{{Name}}</h5>
@@ -103,41 +103,6 @@
         </div>
     </div>
 
-
-    <!-- <script>
-        const data = {
-            labels: [
-                'Hp',
-                'Move Speed',
-                'Armor',
-                'Spell Block',
-                'Attack Range',
-            ],
-            datasets: [{
-                label: 'My First Dataset',
-                data: [65, 59, 90, 81, 56],
-                fill: true,
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgb(255, 99, 132)',
-                pointBackgroundColor: 'rgb(255, 99, 132)',
-                pointBorderColor: '#fff',
-                pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: 'rgb(255, 99, 132)'
-            }]
-        };
-        const mychart = document.getElementById('myChart')
-        const config = new Chart(myChart, {
-            type: 'radar',
-            data: data,
-            options: {
-                elements: {
-                    line: {
-                        borderWidth: 3
-                    }
-                }
-            },
-        });
-    </script> -->
     <script>
 
         const mychart = document.getElementById('myChart')
@@ -185,8 +150,8 @@
                     })
                     heroArray.forEach((x, index) => {
                         
+                        openModal(x.hp, x.speed, x.armor, x.spell, x.attack)
                         row.append(getCard(x.id, x.name, x.blub, x.hp, x.speed, x.armor, x.spell, x.attack))
-
                     })
 
                 })
@@ -216,77 +181,41 @@
             Spell.innerText = `Spell Block: ${spell}`
             Attack.innerText = `Attack Range: ${attack}`
 
-            let data = {
-                labels: [
-                    'Hp',
-                    'Move Speed',
-                    'Armor',
-                    'Spell Block',
-                    'Attack Range',
-                ],
-                datasets: [{
-                    label: '',
-                    data: [hp, speed, armor, spell, attack],
-                    fill: true,
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgb(255, 99, 132)',
-                    pointBackgroundColor: 'rgb(255, 99, 132)',
-                    pointBorderColor: '#fff',
-                    pointHoverBackgroundColor: '#fff',
-                    pointHoverBorderColor: 'rgb(255, 99, 132)'
-                }]
-            };
-            //create chart
-            const config = new Chart(myChart, {
-                type: 'radar',
-                data: data,
-                options: {
-                    elements: {
-                        line: {
-                            borderWidth: 3
-                        }
-                    }
-                },
-            });
-            openModal(x.hp, x.speed, x.armor, x.spell, x.attack)
+            // let data = {
+            //     labels: [
+            //         'Hp',
+            //         'Move Speed',
+            //         'Armor',
+            //         'Spell Block',
+            //         'Attack Range',
+            //     ],
+            //     datasets: [{
+            //         label: '',
+            //         data: [hp, speed, armor*10, spell*10, attack],
+            //         fill: true,
+            //         backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            //         borderColor: 'rgb(255, 99, 132)',
+            //         pointBackgroundColor: 'rgb(255, 99, 132)',
+            //         pointBorderColor: '#fff',
+            //         pointHoverBackgroundColor: '#fff',
+            //         pointHoverBorderColor: 'rgb(255, 99, 132)'
+            //     }]
+            // };
+            // //create chart
+            // const config = new Chart(myChart, {
+            //     type: 'radar',
+            //     data: data,
+            //     options: {
+            //         elements: {
+            //             line: {
+            //                 borderWidth: 3
+            //             }
+            //         }
+            //     },
+            // });
 
         }
-        function newChart(hp, speed, armor) {
-            // chart data
-            let data = {
-                labels: [
-                    'Hp',
-                    'Move Speed',
-                    'Armor',
-                    'Spell Block',
-                    'Attack Range',
-                ],
-                datasets: [{
-                    label: '',
-                    data: [x.hp, x.speed, x.armor, x.spell, x.attack],
-                    fill: true,
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgb(255, 99, 132)',
-                    pointBackgroundColor: 'rgb(255, 99, 132)',
-                    pointBorderColor: '#fff',
-                    pointHoverBackgroundColor: '#fff',
-                    pointHoverBorderColor: 'rgb(255, 99, 132)'
-                }]
-            };
-            //create chart
-            const config = new Chart(myChart, {
-                type: 'radar',
-                data: data,
-                options: {
-                    elements: {
-                        line: {
-                            borderWidth: 3
-                        }
-                    }
-                },
-            });
-            openModal(x.hp, x.speed, x.armor, x.spell, x.attack)
-        }
+        
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
