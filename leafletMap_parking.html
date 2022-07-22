@@ -119,6 +119,7 @@
         let areaData_hsinchu =[]
         let markers = L.markerClusterGroup()
         let tbody = document.querySelector('tobdy')
+        
 
         //拉資料
         let parkingData_taichung = axios.get('https://cors-anywhere.herokuapp.com/https://motoretag.taichung.gov.tw/DataAPI/api/ParkingSpotListAPI')
@@ -129,7 +130,7 @@
 
             Promise.all([parkingData_taichung,parkingData_tainan,parkingData_hsinchu])
                 .then(res=>{
-                    console.log(res[1].data)
+                    // console.log(res[1].data)
 
                     //整理資料 傳入areaData_taichung
                     res[0].data.forEach(x=>{
@@ -161,8 +162,9 @@
                     })
                     
                     //整理資料 傳入
+                    //台南
                     res[1].data.forEach(x=>{
-                        console.log(x)
+                        // console.log(x)
                         let info = {
                             Name: x.name,
                             Lat: x.lnglat.split(',')[0],
@@ -174,7 +176,20 @@
                         }
                         areaData_tainan.push(info)
                     })
-                    // console.log(areaData_tainan)
+                    //新竹
+                    res[2].data.forEach(x=>{
+                        // console.log(x)
+                        let info = {
+                            Name: x.停車場名稱,
+                            Lat: x.X座標,
+                            Lng: x.Y座標,
+                            Total: x.汽車總車位,
+                            Available: x.汽車剩餘車位,
+                            Information: x.平日收費方式
+                        }
+                        areaData_hsinchu.push(info)
+                    })
+                    // console.log(areaData_hsinchu) => OK 70個
                     setMarker()
                 })
                 
@@ -185,11 +200,13 @@
             Object.keys(areaData_taichung).forEach(x=>{
                 let data = areaData_taichung[x]
                 // console.log(data)
-
-                data.parkinglot.concat(areaData_tainan).forEach(y=>{
-                    console.log(y)
+                
+                data.parkinglot.forEach(y=>{
+                    // console.log(y)
                     let marker2 = L.marker([y.Lat, y.Lng])
-                    marker2.addTo(map)
+                    // marker2.addTo(map)
+                    markers.addLayer(marker2);
+
                     let ava = ''
                     ava = y.Available == '-1' ? y.Total : y.Available
                     marker2.bindPopup(`<h5>${y.Name}</h5><h6>總車位: ${y.Total}</h6><h6>剩餘車位: ${ava}</h6>`)
@@ -216,10 +233,44 @@
                 marker.bindPopup(`<h5>${data.Name}</h5>`)
                 
 
-                marker.addTo(map)
+                // marker.addTo(map)
+                markers.addLayer(marker);
+                map.addLayer(markers);
+            })
+        
+            //新竹、台南
+            Object.keys(areaData_tainan.concat(areaData_hsinchu)).forEach(x=>{
+                let data = areaData_tainan.concat(areaData_hsinchu)[x]
+                
+            
+                let ava = ''
+                ava = data.Available == '-1' ? data.Total : data.Available
+                let marker = L.marker([data.Lat, data.Lng])
+                marker.bindPopup(`<h5>${data.Name}</h5><h6>總車位: ${data.Total}</h6><h6>剩餘車位: ${ava}</h6>`)
+                
+                    //點擊marker 變更右邊資訊
+                    marker.addEventListener('click',function(){
+                        document.querySelector('strong').innerText = `${data.Name}`
+                        document.querySelector('#updatetime').innerText = `最近更新時間: ${data.UpdateTime}`
+                        document.querySelector('#near').innerText = `${data.Name}`
+                        document.querySelector('#information').innerText = `${data.Information == '' ? '無' : data.Information}`
+                        let tbody = document.querySelector('tbody')
+                        tbody.innerHTML = ''
+                        let tr = document.createElement('tr')
+                        let td1 = document.createElement('td')
+                        let td2 = document.createElement('td')
+                        td1.innerText = `${data.Total}`
+                        td2.innerText = `${ava}`
+                        tr.appendChild(td1)
+                        tr.appendChild(td2)
+                        tbody.appendChild(tr)
+                    })
+                   
+                
+                markers.addLayer(marker);
+                map.addLayer(markers);
             })
         }
-        
     </script>
 </body>
 
