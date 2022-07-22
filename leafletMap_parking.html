@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking Lot Status</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+
+    <!-- map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
+        integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous" />
+    <style>
+        .container-fluid>.row {
+            height: 100vh;
+        }
+
+        #map {
+            /* width: 50%; */
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row py-3">
+            <div class="col-6">
+                <div id="map"></div>
+            </div>
+            <div class="col-6">
+                <h1 class="w-100 text-center">
+                    <strong>停車場狀態</strong>
+                </h1>
+                <span id="updatetime">最近更新:</span>
+                <h3 id="near"></h3>
+                <table class="w-100 ">
+                    <thead class="border-bottom">
+                        <tr>
+                            <th>總停車位</th>
+                            <th>剩餘車位</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+                <h5 class="mt-3">收費資訊:</h5>
+                <div id="information"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Axios -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+        integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script>
+        // 1. 初始化地圖
+        // 2. 拉資料: 用水的資料，鄉鎮經緯度
+        // 3. 處理資料結構
+        // 4. 下拉選單
+        // 5. 長 marker 在地圖上
+        // 6. 點擊 下拉 會移到 地圖上的座標
+        // 7. marker 簇集功能
+
+        //初始化地圖
+        let map = L.map('map', {
+            center: [23.951016, 120.539025],
+            zoom: 9
+        });
+        // 設定圖資來源
+        let layerUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+        let layer = new L.TileLayer(layerUrl, {
+            minZoom: 8,
+            maxZoom: 19,
+            attribution: 'Thomas Corp.'
+        })
+        // 把圖資加到地圖上
+        map.addLayer(layer)
+
+        
+        
+       
+        
+        const config = {
+            url: '/users', 
+            method: 'post', 
+            headers: { 'Content-Type': 'application/json'},
+            responseType: 'json'
+        }
+
+        const corsURL = 'https://cors-anywhere.herokuapp.com/'
+        let areaData_taichung =[]
+        let areaData_tainan = []
+        let areaData_hsinchu =[]
+        let markers = L.markerClusterGroup()
+        let tbody = document.querySelector('tobdy')
+
+        //拉資料
+        let parkingData_taichung = axios.get('https://cors-anywhere.herokuapp.com/https://motoretag.taichung.gov.tw/DataAPI/api/ParkingSpotListAPI')
+        let parkingData_tainan = axios.get('https://cors-anywhere.herokuapp.com/https://parkweb.tainan.gov.tw/api/parking.php')
+        let parkingData_hsinchu = axios.get('https://cors-anywhere.herokuapp.com/https://odws.hccg.gov.tw/001/Upload/25/opendataback/9059/452/25d47dd1-ac2b-405f-ac52-ba2f8b3071b6.json')
+
+        window.onload = function () {
+
+            Promise.all([parkingData_taichung,parkingData_tainan,parkingData_hsinchu])
+                .then(res=>{
+                    console.log(res[1].data)
+
+                    //整理資料 傳入areaData_taichung
+                    res[0].data.forEach(x=>{
+                        let parkinglot_taichung = []
+                        // console.log(x)
+                        let info1 ={
+                            Name: x.Name,
+                            Lat: x.X,
+                            Lng: x.Y,
+                            parkinglot: parkinglot_taichung
+                        }
+                        
+                        x.ParkingLots.forEach(y=>{
+                            // console.log(y)
+                            let info2 ={
+                                Name: y.Position,
+                                Lat: y.Y,
+                                Lng: y.X,
+                                Total: y.TotalCar,
+                                Available: y.AvailableCar,
+                                Color: y.AvailableCarRGB,
+                                UpdateTime: y.Updatetime,
+                                Information: y.Notes
+                            }
+                            parkinglot_taichung.push(info2)
+                            
+                        })
+                        areaData_taichung.push(info1)
+                    })
+                    
+                    //整理資料 傳入
+                    res[1].data.forEach(x=>{
+                        console.log(x)
+                        let info = {
+                            Name: x.name,
+                            Lat: x.lnglat.split(',')[0],
+                            Lng: x.lnglat.split(',')[1],
+                            Total: x.car_total,
+                            Available: x.car,
+                            Information: x.chargeFee,
+                            UpdataTime: x.update_time
+                        }
+                        areaData_tainan.push(info)
+                    })
+                    // console.log(areaData_tainan)
+                    setMarker()
+                })
+                
+        }
+
+        
+        function setMarker(){
+            Object.keys(areaData_taichung).forEach(x=>{
+                let data = areaData_taichung[x]
+                // console.log(data)
+
+                data.parkinglot.concat(areaData_tainan).forEach(y=>{
+                    console.log(y)
+                    let marker2 = L.marker([y.Lat, y.Lng])
+                    marker2.addTo(map)
+                    let ava = ''
+                    ava = y.Available == '-1' ? y.Total : y.Available
+                    marker2.bindPopup(`<h5>${y.Name}</h5><h6>總車位: ${y.Total}</h6><h6>剩餘車位: ${ava}</h6>`)
+                    //點擊marker 變更右邊資訊
+                    marker2.addEventListener('click',function(){
+                        document.querySelector('strong').innerText = `${data.Name}`
+                        document.querySelector('#updatetime').innerText = `最近更新時間: ${y.UpdateTime}`
+                        document.querySelector('#near').innerText = `${y.Name}`
+                        document.querySelector('#information').innerText = `${y.Information == '' ? '無' : y.Information}`
+                        let tbody = document.querySelector('tbody')
+                        tbody.innerHTML = ''
+                        let tr = document.createElement('tr')
+                        let td1 = document.createElement('td')
+                        let td2 = document.createElement('td')
+                        td1.innerText = `${y.Total}`
+                        td2.innerText = `${ava}`
+                        tr.appendChild(td1)
+                        tr.appendChild(td2)
+                        tbody.appendChild(tr)
+                    })
+                })
+
+                let marker = L.marker([data.Lng, data.Lat])
+                marker.bindPopup(`<h5>${data.Name}</h5>`)
+                
+
+                marker.addTo(map)
+            })
+        }
+        
+    </script>
+</body>
+
+</html>
