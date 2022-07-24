@@ -109,11 +109,15 @@
         const config = {
             url: '/users', 
             method: 'post', 
-            headers: { 'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json', 
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Headers': '*',
+                    'Access-Control-Allow-Credentials': 'true'},
             responseType: 'json'
         }
+        
 
-        const corsURL = 'https://cors-anywhere.herokuapp.com/'
+        // const corsURL = 'https://cors-anywhere.herokuapp.com/'
         let areaData_taichung =[]
         let areaData_tainan = []
         let areaData_hsinchu =[]
@@ -122,9 +126,12 @@
         
 
         //拉資料
-        let parkingData_taichung = axios.get('https://cors-anywhere.herokuapp.com/https://motoretag.taichung.gov.tw/DataAPI/api/ParkingSpotListAPI')
-        let parkingData_tainan = axios.get('https://cors-anywhere.herokuapp.com/https://parkweb.tainan.gov.tw/api/parking.php')
-        let parkingData_hsinchu = axios.get('https://cors-anywhere.herokuapp.com/https://odws.hccg.gov.tw/001/Upload/25/opendataback/9059/452/25d47dd1-ac2b-405f-ac52-ba2f8b3071b6.json')
+        let parkingData_taichung = axios.get('https://raw.githubusercontent.com/WeiTingChia/FilStorage/main/parking_taichung')
+        let parkingData_tainan = axios.get('https://raw.githubusercontent.com/WeiTingChia/FilStorage/main/parking_tainan')
+        let parkingData_hsinchu = axios.get('https://raw.githubusercontent.com/WeiTingChia/FilStorage/main/parking_hsinchu')
+        // let parkingData_taichung = axios.get('https://cors-anywhere.herokuapp.com/https://motoretag.taichung.gov.tw/DataAPI/api/ParkingSpotListAPI',config)
+        // let parkingData_tainan = axios.get('https://cors-anywhere.herokuapp.com/https://parkweb.tainan.gov.tw/api/parking.php',config)
+        // let parkingData_hsinchu = axios.get('https://cors-anywhere.herokuapp.com/https://odws.hccg.gov.tw/001/Upload/25/opendataback/9059/452/25d47dd1-ac2b-405f-ac52-ba2f8b3071b6.json',config)
 
         window.onload = function () {
 
